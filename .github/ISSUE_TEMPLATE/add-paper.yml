@@ -1,0 +1,65 @@
+name: Add a paper
+description: Propose a public English paper or preprint with primary-source evidence.
+title: "[Paper] "
+labels:
+  - literature
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping. Core entries require both student-policy states and an explicit tokenizer/vocabulary mismatch.
+  - type: input
+    id: paper_url
+    attributes:
+      label: Primary paper URL
+      description: Use the arXiv, proceedings, publisher, or OpenReview page.
+      placeholder: https://arxiv.org/abs/...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version checked
+      placeholder: arXiv v2, ICML 2026 final, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: rollout_evidence
+    attributes:
+      label: Student-rollout evidence
+      description: Give the section/equation/table and a short paraphrase.
+    validations:
+      required: true
+  - type: textarea
+    id: mismatch_evidence
+    attributes:
+      label: Tokenizer/vocabulary-mismatch evidence
+      description: Give the section/table and the exact Teacher → Student pair.
+    validations:
+      required: true
+  - type: textarea
+    id: interface
+    attributes:
+      label: Cross-tokenizer interface
+      description: Explain the common event/space, coverage, teacher access, and probability semantics.
+    validations:
+      required: true
+  - type: input
+    id: code_url
+    attributes:
+      label: Official code or project URL
+      description: Leave blank if none was found; do not link unofficial reimplementations without labeling them.
+  - type: textarea
+    id: caveats
+    attributes:
+      label: Caveats or ambiguities
+      description: Note missing details, unsupported claims, or paper/code inconsistencies.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Source checks
+      options:
+        - label: I checked the public full text, not only the abstract or a secondary survey.
+          required: true
+        - label: I did not copy a long passage from the paper.
+          required: true

@@ -1,0 +1,33 @@
+name: Report a correction
+description: Correct metadata, classification, evidence, code status, or wording.
+title: "[Correction] "
+labels:
+  - correction
+body:
+  - type: textarea
+    id: current
+    attributes:
+      label: Current statement
+      description: Link to the row or data record and quote only the short statement at issue.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Proposed correction
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Primary-source URL
+      placeholder: Paper section, tagged release, or commit permalink
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and reasoning
+      description: Explain precisely what the source supports and the version/date checked.
+    validations:
+      required: true

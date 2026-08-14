@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If this living survey helps your research, please cite the repository and the original papers you use."
+title: "Awesome Cross-Tokenizer On-Policy Distillation"
+type: dataset
+authors:
+  - family-names: "Kimura"
+    given-names: "Yusuke"
+repository-code: "https://github.com/usk-Kimura/awesome-cross-tokenizer-opd"
+url: "https://github.com/usk-Kimura/awesome-cross-tokenizer-opd"
+abstract: "A curated, evidence-backed research map of on-policy distillation across different tokenizers and vocabularies."
+keywords:
+  - "on-policy distillation"
+  - "cross-tokenizer distillation"
+  - "knowledge distillation"
+  - "large language models"
+  - "tokenization"
+license: CC0-1.0
+version: 0.1.0
+date-released: "2026-08-15"
