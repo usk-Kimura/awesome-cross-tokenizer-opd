@@ -91,6 +91,15 @@ see `web/fonts/README.md` when extending its subset.
 
 ## Evidence and tone
 
+For Japanese copy, follow [yomiyasu](https://github.com/nanaism/yomiyasu/blob/60bf877/skills/yomiyasu/SKILL.md).
+Make subjects, objects, and calculations clear; describe how a signal is used
+in training rather than relying on literal translations such as “supervise a
+token.” Keep established technical terms, reported numbers, conditions, and
+uncertainty intact. The skill's lint and diff scripts identify passages to
+review; their scores are not an acceptance criterion. Check both the paper
+cards and `README_ja.md`, including the separation between author claims and
+catalogue notes.
+
 “Verified” means checked against public primary material, not experimentally
 reproduced. Attribute numerical or exactness claims to the paper, state negative
 findings narrowly (for example, “no official code found as of DATE”), and make
