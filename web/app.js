@@ -12,6 +12,16 @@
   const pageLang = document.documentElement.lang === 'zh-Hans' ? 'zh' : document.documentElement.lang;
   let lang = Object.hasOwn(locales, params.get('lang')) ? params.get('lang') : pageLang;
   if (!Object.hasOwn(locales, lang)) lang = 'en';
+  const siteBase = new URL('./', document.querySelector('script[src*="site-data.js"]').src);
+  const languageURL = language => new URL(language === 'en' ? './' : `${language}/`, siteBase);
+  if (lang !== pageLang) {
+    const destination = languageURL(lang);
+    params.delete('lang');
+    destination.search = params.toString();
+    destination.hash = location.hash;
+    location.replace(destination.href);
+    return;
+  }
   const state = {q: params.get('q') || '', scope: params.get('scope') || 'all', code: params.get('code') || 'all', access: params.get('access') || 'all', sort: params.get('sort') || 'newest'};
   const selected = new Set((params.get('compare') || '').split(',').filter(id => byId.has(id)).slice(0, 3));
   let toastTimer;
@@ -21,6 +31,8 @@
   const badge = work => `<span class="code-badge ${codeClass(work)}" title="${escape(t('codeChecked') + ': ' + work.code_last_checked)}">${escape(t(work.code_status))}</span>`;
   const citationButton = work => work.bibtex ? `<button type="button" data-bib="${escape(work.id)}">${escape(t('copyBib'))}</button>` : '';
   const dl = (key, value, original = false) => `<dt>${escape(t(key))}</dt><dd${original ? ' lang="en"' : ''}>${escape(value)}</dd>`;
+
+  const claimHTML = work => `<div class="paper-claim"><div class="claim-heading"><strong>${escape(t(work.record_kind === 'paper' ? 'claimLabel' : 'resourceClaimLabel'))}</strong>${link(work.claim_source, t('claimSource'))}</div><p class="claim-text">${escape(work.claim[lang])}</p></div>`;
 
   function implementation(work) {
     const help = {available:'codeAvailableHelp', available_experimental:'codeExperimentalHelp', not_found:'codeMissingHelp', announced_not_available:'codeAnnouncedHelp', linked_access_unverified:'codeLinkedHelp'}[work.code_status];
@@ -39,13 +51,13 @@
 
   function paperHTML(work) {
     const paper = work.urls.paper || work.urls.article;
-    return `<article class="paper" id="paper-${escape(work.id)}" data-paper-id="${escape(work.id)}"><div class="paper-meta"><span class="scope-badge">${escape(t(work.classification))}</span><span class="paper-date">${escape(t('published'))} <time datetime="${escape(work.first_public_date)}">${escape(work.first_public_date)}</time></span></div><div class="paper-title-row"><h3 lang="en">${escape(work.name)}</h3><label class="compare-select"><input type="checkbox" data-compare="${escape(work.id)}" ${selected.has(work.id) ? 'checked' : ''}><span>${escape(t('compare'))}</span></label></div><p class="original-title" lang="en">${link(paper, work.title)}</p><p class="authors" lang="en">${escape(work.authors.join(' · '))}</p><p class="summary">${escape(work.summary[lang])}</p>${pairHTML(work)}${implementation(work)}<div class="paper-actions">${link(paper, work.urls.paper ? t('paper') : t('article'))}${link(work.urls.project, t('project'))}${citationButton(work)}</div><details class="method-details"><summary>${escape(t('details'))}</summary><div class="detail-content">${sourceDetails(work)}</div></details></article>`;
+    return `<article class="paper" id="paper-${escape(work.id)}" data-paper-id="${escape(work.id)}"><div class="paper-meta"><span class="scope-badge">${escape(t(work.classification))}</span><span class="paper-date">${escape(t('published'))} <time datetime="${escape(work.first_public_date)}">${escape(work.first_public_date)}</time></span></div><div class="paper-title-row"><h3 lang="en">${escape(work.name)}</h3><label class="compare-select"><input type="checkbox" data-compare="${escape(work.id)}" ${selected.has(work.id) ? 'checked' : ''}><span>${escape(t('compare'))}</span></label></div><p class="original-title" lang="en">${link(paper, work.title)}</p>${claimHTML(work)}<p class="authors" lang="en">${escape(work.authors.join(' · '))}</p><div class="method-summary"><span>${escape(t('methodSummary'))}</span><p class="summary">${escape(work.summary[lang])}</p></div>${pairHTML(work)}${implementation(work)}<div class="paper-actions">${link(paper, work.urls.paper ? t('paper') : t('article'))}${link(work.urls.project, t('project'))}${citationButton(work)}</div><details class="method-details"><summary>${escape(t('details'))}</summary><div class="detail-content">${sourceDetails(work)}</div></details></article>`;
   }
 
   function filtered() {
     const terms = state.q.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
     const matches = data.works.filter(work => {
-      const haystack = [work.name, work.title, work.authors.join(' '), work.interface, work.feedback_coverage, work.probability_semantics, work.teacher_access, ...Object.values(work.summary), ...work.evaluated_pairs.map(p => `${p.teacher} ${p.student}`)].join(' ').toLocaleLowerCase();
+      const haystack = [work.name, work.title, work.authors.join(' '), work.interface, work.feedback_coverage, work.probability_semantics, work.teacher_access, ...Object.values(work.summary), ...Object.values(work.claim), ...work.evaluated_pairs.map(p => `${p.teacher} ${p.student}`)].join(' ').toLocaleLowerCase();
       return terms.every(term => haystack.includes(term)) &&
         (state.scope === 'all' || (state.scope === 'core' ? work.classification.startsWith('core_') : work.classification === state.scope)) &&
         (state.code === 'all' || (state.code === 'public' ? publicCode(work) : work.code_status === state.code)) &&
@@ -62,10 +74,10 @@
 
   function updateURL() {
     const query = new URLSearchParams();
-    query.set('lang', lang);
     for (const [key, value] of Object.entries(state)) if (value && value !== 'all' && !(key === 'sort' && value === 'newest')) query.set(key, value);
     if (selected.size) query.set('compare', [...selected].join(','));
-    history.replaceState(null, '', `${location.pathname}?${query}${location.hash}`);
+    const search = query.toString();
+    history.replaceState(null, '', `${location.pathname}${search ? '?' + search : ''}${location.hash}`);
   }
 
   function updateSelection() {
@@ -89,7 +101,7 @@
 
   function renderInterface() {
     document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : lang;
-    document.title = `${t('title')} · ${t('subtitle')}`;
+    document.title = t('seoTitle');
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
     $('catalogue').setAttribute('aria-label', t('catalogue'));
     $('language').value = lang;
@@ -131,14 +143,19 @@
   function comparison() {
     if (!selected.size) return notify(t('compareEmpty'));
     const works = [...selected].map(id => byId.get(id));
-    $('comparison-content').innerHTML = `<div class="compare-grid" style="--columns:${works.length}">${works.map(work => `<section class="compare-card"><h3 lang="en">${escape(work.name)}</h3><p>${escape(work.summary[lang])}</p>${implementation(work)}${pairHTML(work)}${sourceDetails(work)}<div class="paper-actions">${citationButton(work)}</div></section>`).join('')}</div>`;
+    $('comparison-content').innerHTML = `<div class="compare-grid" style="--columns:${works.length}">${works.map(work => `<section class="compare-card"><h3 lang="en">${escape(work.name)}</h3>${claimHTML(work)}<p>${escape(work.summary[lang])}</p>${implementation(work)}${pairHTML(work)}${sourceDetails(work)}<div class="paper-actions">${citationButton(work)}</div></section>`).join('')}</div>`;
     $('comparison').showModal();
   }
 
   $('search').addEventListener('input', e => { state.q = e.target.value; renderPapers(); });
   $('filter-toggle').addEventListener('click', () => $('filter-toggle').setAttribute('aria-expanded', String($('filter-toggle').getAttribute('aria-expanded') !== 'true')));
   for (const key of ['scope','code','access','sort']) $(key).addEventListener('change', e => { state[key] = e.target.value; renderPapers(); });
-  $('language').addEventListener('change', e => { lang = e.target.value; renderInterface(); });
+  $('language').addEventListener('change', e => {
+    const destination = languageURL(e.target.value);
+    destination.search = location.search;
+    destination.hash = location.hash;
+    location.assign(destination.href);
+  });
   $('reset').addEventListener('click', () => { Object.assign(state, {q:'',scope:'all',code:'all',access:'all',sort:'newest'}); renderInterface(); });
   $('clear-selection').addEventListener('click', () => { selected.clear(); updateSelection(); });
   $('open-compare').addEventListener('click', comparison);

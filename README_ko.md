@@ -4,7 +4,7 @@
 
 [English](README.md) · [日本語](README_ja.md) · [简体中文](README_zh.md) · **한국어**
 
-[대화형 연구 목록](https://usk-kimura.github.io/awesome-cross-tokenizer-opd/?lang=ko) ·
+[대화형 연구 목록](https://usk-kimura.github.io/awesome-cross-tokenizer-opd/ko/) ·
 [구조화 데이터](data/papers.yml) · [BibTeX](references.bib)
 
 갱신일은 **2026-10-14**입니다. 영어 README가 기준 문서이며, 이 문서는 한국어 연구 지도와 읽기 안내를 제공합니다.

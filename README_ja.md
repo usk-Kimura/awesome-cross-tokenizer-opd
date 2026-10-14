@@ -5,7 +5,7 @@
 
 [English](README.md) · [日本語](README_ja.md) · [简体中文](README_zh.md) · [한국어](README_ko.md)
 
-[研究カタログ](https://usk-kimura.github.io/awesome-cross-tokenizer-opd/?lang=ja) · [コード公開状況](#code-availability) · [機械可読データ](data/papers.yml) · [BibTeX](references.bib)
+[研究カタログ](https://usk-kimura.github.io/awesome-cross-tokenizer-opd/ja/) · [コード公開状況](#code-availability) · [機械可読データ](data/papers.yml) · [BibTeX](references.bib)
 
 更新日は **2026-10-14** です。英語版 README を正本とし、この文書は
 スコープと読み方を日本語で案内します。「確認済み」は論文本文で記述を確認した

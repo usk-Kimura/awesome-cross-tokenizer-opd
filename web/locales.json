@@ -125,7 +125,14 @@
     "readingReliability": "Coverage and reliability",
     "readingReliabilityText": "Read Rethinking alongside methods that expand supervision coverage.",
     "shareShort": "Share",
-    "codeLink": "Open code link"
+    "codeLink": "Open code link",
+    "claimLabel": "Paper’s claim",
+    "resourceClaimLabel": "Documentation’s description",
+    "claimSource": "Source",
+    "methodSummary": "Method and reading notes",
+    "seoTitle": "Cross-Tokenizer OPD Papers, Methods & Official Code",
+    "seoDescription": "Explore cross-tokenizer on-policy distillation papers: author claims, methods, teacher–student pairs, official code, evidence and BibTeX. English, Japanese, Chinese and Korean.",
+    "socialAlt": "Cross-Tokenizer OPD — research papers, methods, and official code across vocabularies."
   },
   "ja": {
     "title": "Cross-Tokenizer OPD",
@@ -253,7 +260,14 @@
     "readingReliability": "学習信号の信頼性を調べたい",
     "readingReliabilityText": "監督範囲を広げる手法と併せて Rethinking を読むと、比較の視点が増えます。",
     "shareShort": "共有",
-    "codeLink": "コードリンクを開く"
+    "codeLink": "コードリンクを開く",
+    "claimLabel": "論文の主張",
+    "resourceClaimLabel": "公式資料の説明",
+    "claimSource": "出典",
+    "methodSummary": "手法・読む際の注意",
+    "seoTitle": "Cross-Tokenizer OPD 論文・手法・公式コード一覧",
+    "seoDescription": "異なるトークナイザー間の On-Policy Distillation（OPD）を調べる研究カタログ。論文の主張、手法、教師・生徒モデル、公式コード、一次資料と BibTeX を日本語・英語・中国語・韓国語で確認できます。",
+    "socialAlt": "Cross-Tokenizer OPD：異なる語彙間の蒸留研究・手法・公式コードを探す研究カタログ。"
   },
   "zh": {
     "title": "Cross-Tokenizer OPD",
@@ -381,7 +395,14 @@
     "readingReliability": "覆盖与可靠性",
     "readingReliabilityText": "把 Rethinking 与扩展监督覆盖的方法一起阅读。",
     "shareShort": "分享",
-    "codeLink": "打开代码链接"
+    "codeLink": "打开代码链接",
+    "claimLabel": "论文主张",
+    "resourceClaimLabel": "官方文档说明",
+    "claimSource": "来源",
+    "methodSummary": "方法与阅读提示",
+    "seoTitle": "Cross-Tokenizer OPD 论文、方法与官方代码目录",
+    "seoDescription": "跨分词器 On-Policy Distillation（OPD）研究目录：论文主张、方法、教师与学生模型、官方代码、原始资料及 BibTeX。支持中文、英文、日文和韩文。",
+    "socialAlt": "Cross-Tokenizer OPD：跨词表蒸馏论文、方法与官方代码研究目录。"
   },
   "ko": {
     "title": "Cross-Tokenizer OPD",
@@ -509,6 +530,13 @@
     "readingReliability": "감독 범위와 신뢰성",
     "readingReliabilityText": "감독 범위를 넓히는 방법과 함께 Rethinking을 읽어보세요.",
     "shareShort": "공유",
-    "codeLink": "코드 링크 열기"
+    "codeLink": "코드 링크 열기",
+    "claimLabel": "논문의 주장",
+    "resourceClaimLabel": "공식 문서의 설명",
+    "claimSource": "출처",
+    "methodSummary": "방법과 읽을 때의 참고 사항",
+    "seoTitle": "Cross-Tokenizer OPD 논문·방법·공식 코드 목록",
+    "seoDescription": "교차 토크나이저 On-Policy Distillation(OPD) 연구 목록. 논문의 주장, 방법, 교사·학생 모델, 공식 코드, 1차 자료와 BibTeX를 한국어·영어·일본어·중국어로 확인하세요.",
+    "socialAlt": "Cross-Tokenizer OPD: 서로 다른 어휘 간 증류 논문, 방법, 공식 코드 연구 목록."
   }
 }

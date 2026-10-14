@@ -56,7 +56,11 @@ repository.
 
 The GitHub Pages catalogue is built from `data/papers.yml` and `references.bib`.
 Keep the short summaries in `web/summaries.json` aligned in all four languages;
-the detailed source metadata remains in English. Code availability tables in
+write the author's contribution or finding separately in `web/claims.json`.
+Claims appear directly below titles in both the static HTML and interactive
+catalogue. Paraphrase the primary source, attribute reported results, and keep
+implementation concerns in the method notes rather than in the author's claim.
+The detailed source metadata remains in English. Code availability tables in
 the READMEs are generated, so update the data rather than editing those tables.
 
 ```bash
@@ -72,6 +76,18 @@ Playwright: `python scripts/check_browser.py`. The checks cover multilingual
 search, filters, comparison, citation downloads, shared URLs, mobile layouts,
 and reading without JavaScript. The Pages workflow validates and publishes the
 catalogue when changes reach `main`; pull requests only build and validate.
+
+The build includes localized search/social metadata, reciprocal language links,
+and JSON-LD describing the catalogue and its external papers. `sitemap.xml`
+uses canonical language URLs; search/filter URLs share those canonical pages.
+The project's `robots.txt` is provided as a reference, but crawlers use the
+host-root robots file on GitHub Pages. Search Console ownership and submission
+are managed separately from this build.
+
+The social preview is `web/social-card.png` (1200 × 630), rendered from
+`web/social-card.svg`. Keep it consistent with the site branding. Japanese
+claims and explanations should use characters covered by the bundled font;
+see `web/fonts/README.md` when extending its subset.
 
 ## Evidence and tone
 

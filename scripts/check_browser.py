@@ -18,18 +18,28 @@ def check(base_url):
         page = context.new_page()
         errors = []
         page.on("pageerror", lambda error: errors.append(str(error)))
+        def switch_language(language):
+            page.select_option("#language", language)
+            page.wait_for_url(urljoin(base_url, "" if language == "en" else language + "/") + "**")
+            page.wait_for_load_state("networkidle")
+            expect(page.locator("#language")).to_have_value(language)
+
         locales = json.loads((ROOT / "web/locales.json").read_text())
         for lang, path in [("en", ""), ("ja", "ja/"), ("zh", "zh/"), ("ko", "ko/")]:
             response = page.goto(urljoin(base_url, path), wait_until="networkidle")
             assert response.status == 200
             expect(page.locator(".paper")).to_have_count(total)
             expect(page.locator("#language")).to_have_value(lang)
+            expect(page.locator(".original-title + .paper-claim")).to_have_count(total)
+            expect(page.locator(".claim-text")).to_have_count(total)
             assert page.locator(".summary").first.inner_text()
             page.select_option("#code", "public")
             expect(page.locator(".paper")).to_have_count(len(available))
             page.click("#reset")
             page.fill("#search", "Rethinking")
             expect(page.locator(".paper")).to_have_count(1)
+            expect(page.locator(".claim-heading strong")).to_have_text(locales[lang]["claimLabel"])
+            expect(page.locator(".claim-text")).to_contain_text("16")
             expect(page.locator(".code-badge")).to_have_text(locales[lang]["linked_access_unverified"])
             page.locator(".code-info > summary").click()
             expect(page.locator(".code-explanation")).to_contain_text("HTTP 401")
@@ -37,7 +47,7 @@ def check(base_url):
             page.locator(".method-details > summary").click()
             expect(page.locator(".detail-content")).to_be_visible()
             assert "2026-10-14" in page.locator(".detail-content").inner_text()
-        page.select_option("#language", "ja")
+        switch_language("ja")
         page.fill("#search", "OmniOPD")
         expect(page.locator(".code-badge")).to_have_text("公式コードを確認できず")
         page.locator(".code-info > summary").click()
@@ -96,10 +106,10 @@ def check(base_url):
         for width in [390, 320]:
             page.set_viewport_size({"width": width, "height": 844})
             for lang in ["en", "ja", "zh", "ko"]:
-                page.select_option("#language", lang)
+                switch_language(lang)
                 assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), (lang, width)
         page.set_viewport_size({"width": 390, "height": 844})
-        page.select_option("#language", "ja")
+        switch_language("ja")
         page.goto(urljoin(base_url, "ja/"), wait_until="networkidle")
         expect(page.locator("#code")).to_be_hidden()
         page.click("#filter-toggle")
@@ -123,15 +133,24 @@ def check(base_url):
         page.evaluate("window.scrollTo(0,0)")
         page.screenshot(path="/tmp/cross-tokenizer-opd-desktop.png", full_page=False)
         assert not errors, errors
+        # Legacy shared links migrate to the canonical language route without losing filters.
+        page.goto(urljoin(base_url, "?lang=ja&q=Rethinking&compare=cast,bpm"), wait_until="networkidle")
+        expect(page.locator("#language")).to_have_value("ja")
+        expect(page.locator(".paper")).to_have_count(1)
+        expect(page.locator("#selected-count")).to_contain_text("2")
+        assert page.url.startswith(urljoin(base_url, "ja/"))
+        assert "lang=" not in page.url
         # Without JavaScript, all records and their sources remain discoverable.
         static_context = browser.new_context(java_script_enabled=False)
         static_page = static_context.new_page()
         static_page.goto(urljoin(base_url, "zh/"))
         expect(static_page.locator(".paper")).to_have_count(total)
+        expect(static_page.locator(".original-title + .paper-claim")).to_have_count(total)
         latest = max(data["works"], key=lambda work: work["first_public_date"])
         assert latest["summary"]["zh"] in static_page.locator(".paper").first.inner_text()
+        assert latest["claim"]["zh"] in static_page.locator(".paper").first.inner_text()
         browser.close()
-    print("PASS: four languages, explicit code states and explanations, Japanese font rendering, search, filters, evidence, comparison, citations, shared URLs, 320/390px layouts, and JavaScript-free reading.")
+    print("PASS: claims below titles in four languages, canonical language navigation and legacy links, code states, font rendering, search, filters, comparison, citations, shared URLs, mobile layouts, and static reading.")
 
 
 if __name__ == "__main__":

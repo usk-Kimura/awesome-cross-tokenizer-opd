@@ -4,7 +4,7 @@
 
 [English](README.md) · [日本語](README_ja.md) · **简体中文** · [한국어](README_ko.md)
 
-[交互式研究目录](https://usk-kimura.github.io/awesome-cross-tokenizer-opd/?lang=zh) ·
+[交互式研究目录](https://usk-kimura.github.io/awesome-cross-tokenizer-opd/zh/) ·
 [结构化数据](data/papers.yml) · [BibTeX](references.bib)
 
 更新日期：**2026-10-14**。英文 README 是规范版本。本页提供中文研究地图与阅读说明。
