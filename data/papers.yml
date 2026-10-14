@@ -1,7 +1,8 @@
 schema_version: 1
-last_verified: "2026-08-15"
+last_verified: "2026-10-14"
 
 conventions:
+  verification_dates: "Top-level last_verified dates the refresh; per-work last_verified dates full-text claims, metadata_last_verified dates version/link checks, and code_last_checked dates implementation lookup."
   pair_direction: "teacher_to_student"
   verified_meaning: "Checked against public full text; not independently reproduced."
   core_criteria:
@@ -13,6 +14,8 @@ conventions:
 
 classifications:
   core_output_space: "Core OPD method that constructs comparable output-space events or distributions."
+  core_application: "Applied pipeline meeting the core criteria, without isolating a new tokenizer bridge."
+  adjacent_off_policy: "Cross-tokenizer KD with dataset/reference trajectories rather than current student rollouts."
   core_vocabulary_bypassing: "Core OPD method that bypasses direct vocabulary-distribution mapping."
   evaluation_interface_under_specified: "Cross-vocabulary OPD result is reported, but the bridge is not documented sufficiently."
   paper_claim_implementation_concern: "The paper reports cross-tokenizer OPD, but the audited public implementation does not preserve text semantics across tokenizers."
@@ -60,6 +63,9 @@ works:
       experiment: "Section IV / Table II"
     caveats:
       - "ETA retains exact alignments rather than defining a full common string-event distribution at every position."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "simct"
     record_kind: "paper"
@@ -105,6 +111,9 @@ works:
       experiment: "Section 4.1 / Table 1"
     caveats:
       - "Finite candidate support should not be interpreted as full-vocabulary mass preservation."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "esr"
     record_kind: "paper"
@@ -146,6 +155,9 @@ works:
       experiment: "Tables 1 and 2"
     caveats:
       - "The paper's tables write student-to-teacher order; pairs here are normalized to teacher-to-student order."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "gad"
     record_kind: "paper"
@@ -185,6 +197,9 @@ works:
       experiment: "Section 3.1 / Table 2"
     caveats:
       - "Teacher responses are collected once per prompt; the teacher does not directly score each evolving student prefix."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "ropd"
     record_kind: "paper"
@@ -231,6 +246,9 @@ works:
       experiment: "Sections 3.2-3.5 / Tables 1-3"
     caveats:
       - "The signal is semantic and response-level, so it is not a replacement for experiments that require calibrated token probabilities."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "omniopd"
     record_kind: "paper"
@@ -275,6 +293,9 @@ works:
       experiment: "Section 5 / Table 1"
     caveats:
       - "The exact vocabularies of proprietary teachers are not exposed; mismatch robustness follows from the text-only interface rather than a measurable token map."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "oprd"
     record_kind: "paper"
@@ -317,6 +338,7 @@ works:
         - "https://github.com/ShenzhiYang2000/OPRD/blob/a63236c990b1bfa9551e9d020719490d3ecd93e8/scripts/analysis/cross_arch_repr_analysis.py#L5-L8"
         - "https://github.com/ShenzhiYang2000/OPRD/blob/a63236c990b1bfa9551e9d020719490d3ecd93e8/scripts/analysis/cross_arch_preexp2_train_ps.py#L1564-L1567"
         - "https://github.com/ShenzhiYang2000/OPRD/blob/a63236c990b1bfa9551e9d020719490d3ecd93e8/scripts/analysis/cross_arch_preexp2_train_ps.py#L888-L890"
+      last_checked: "2026-10-14"
     evidence_locations:
       rollout: "Section 3"
       mismatch_interface: "Section 3.3"
@@ -324,6 +346,9 @@ works:
     caveats:
       - "Requires internal hidden-state access and a staged bridge construction procedure."
       - "The released implementation does not retokenize the same decoded text for the teacher, so it does not currently verify the paper's semantic cross-tokenizer claim."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "btb"
     record_kind: "paper"
@@ -364,6 +389,9 @@ works:
       experiment: "Section 4.1 / Table 1"
     caveats:
       - "Scalar realized-path supervision should not be compared as if it were a dense vocabulary transform."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "reopold"
     record_kind: "paper"
@@ -376,11 +404,13 @@ works:
       - "Tianyi Chen"
       - "Pashmina Cameron"
     first_public_date: "2026-03-11"
-    checked_version: "ICML 2026 OpenReview version"
-    publication: "ICML 2026; PMLR 306"
+    checked_version: "OpenReview version audited 2026-08-15; latest author-linked version not retrieved"
+    publication: "NeurIPS 2026 (listed by author publication page; latest OpenReview text not retrieved)"
     urls:
       paper: "https://openreview.net/forum?id=NPhEUvT1jH"
       arxiv: "https://arxiv.org/abs/2603.11137"
+      author_publication: "https://www.microsoft.com/en-us/research/publication/relaxed-on-policy-distillation-selective-credit-allocation-for-scaling-reasoning-efficiently/"
+      latest_openreview: "https://openreview.net/forum?id=l0h1SzRI7H"
       code: null
       project: null
     student_policy_states: "yes"
@@ -388,7 +418,7 @@ works:
     interface: "Not specified for the mismatched vocabularies; the objective uses teacher/student likelihood ratios for sampled tokens."
     feedback_coverage: "Selected sampled tokens, using credit clipping and entropy-based sampling."
     teacher_access: "Teacher sampled-token likelihoods according to the method description."
-    probability_semantics: "Cross-vocabulary event correspondence is not documented in the public final paper."
+    probability_semantics: "Cross-vocabulary event correspondence was not documented in the previously audited OpenReview version."
     evaluated_pairs:
       - teacher: "Phi-4-Mini-Reasoning"
         student: "DeepSeek-R1-Distill-Qwen-1.5B"
@@ -401,6 +431,10 @@ works:
     caveats:
       - "The arXiv v1 predates the final appendix and uses the earlier title 'Scaling Reasoning Efficiently via Relaxed On-Policy Distillation'."
       - "Do not treat this row as a reproducible cross-tokenizer alignment method without further implementation details."
+      - "The author publication page now lists NeurIPS 2026 and a different OpenReview record; browser verification prevented retrieval, so its interface was not re-audited. The earlier ICML/PMLR attribution has been removed."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "bpm"
     record_kind: "paper"
@@ -419,7 +453,7 @@ works:
     publication: "arXiv preprint"
     urls:
       paper: "https://arxiv.org/abs/2607.22334"
-      code: null
+      code: "https://github.com/K1XE/BPM"
       project: "https://bpm-opd.github.io/"
     student_policy_states: "yes"
     mismatch_evidence: "Three teacher tokenizers with increasing distance are evaluated against a fixed Qwen3.5 student."
@@ -437,14 +471,17 @@ works:
       - teacher: "MiniMax-M2.7"
         student: "Qwen3.5-2B"
         mismatch: "cross-family tokenizer mismatch"
-    code_status: "announced_not_available"
+    code_status: "available"
     evidence_locations:
       rollout: "Section 3"
       mismatch_interface: "Sections 3.1-3.3"
       experiment: "Section 4.1 / Table 1"
     caveats:
       - "The paper reports a whitespace-only code target failure and uses a precomputed mask."
-      - "The project page promised code in one to two months; no repository was available on the snapshot date."
+      - "Official code was released on 2026-09-01; availability was checked, but experiments were not independently reproduced."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "ovd"
     record_kind: "paper"
@@ -462,33 +499,33 @@ works:
       - "Lifeng Shang"
       - "Ngai Wong"
     first_public_date: "2026-01-29"
-    checked_version: "arXiv v1"
-    publication: "arXiv technical report"
+    checked_version: "arXiv v2"
+    publication: "arXiv preprint"
     urls:
       paper: "https://arxiv.org/abs/2601.21968"
-      code: null
-      project: null
-    student_policy_states: "qualified: current student samples enter a mixed student/teacher training distribution"
+      code: "https://github.com/menik1126/OVD-code"
+      project: "https://menik1126.github.io/ovd-project-page/"
+    student_policy_states: "qualified: student-generated sub-trajectories are retained or replaced before mixed-policy optimization"
     mismatch_evidence: "The method explicitly avoids token-level alignment and evaluates Qwen teachers/agents with both Qwen and Llama students."
-    interface: "Teacher agents evaluate reasoning steps or trajectories with a discrete verbal score vocabulary."
-    feedback_coverage: "Step- and trajectory-level verbal scores."
-    teacher_access: "Teacher text/verbal scores; no full-vocabulary logits."
-    probability_semantics: "A compact score distribution and rejection rule replace token-probability matching."
+    interface: "Verbal scores select student sub-trajectories; rejected suffixes or queries are replaced by teacher continuations."
+    feedback_coverage: "Selected sub-trajectories; outcome-based advantages optimize both retained student tokens and teacher replacements."
+    teacher_access: "Teacher verbal scores and generated replacements; no full-vocabulary teacher logits required."
+    probability_semantics: "Retain-and-replace mixture; teacher-distribution approximation is conditional on acceptance calibration and replacement error."
     evaluated_pairs:
-      - teacher: "QwQ-32B reasoning agent"
-        student: "Qwen2.5-Math-1.5B"
-        mismatch: "token alignment not required"
-      - teacher: "Qwen2.5 environment agent"
-        student: "Qwen2.5-3B or Llama-3.2-3B"
-        mismatch: "includes cross-family student"
-    code_status: "not_found"
+      - teacher: "Qwen2.5-7B teacher agent"
+        student: "Qwen2.5-3B-Base / Llama-3.2-3B-Base"
+        mismatch: "text-only interface; includes cross-family Llama student"
+    code_status: "available"
     evidence_locations:
-      rollout: "Sections 3.3-3.4 / Algorithm 1"
-      mismatch_interface: "Sections 2-3"
-      experiment: "Section 4"
+      rollout: "Sections 2.1 and 2.3"
+      mismatch_interface: "Sections 1.1-2.1; Appendix B"
+      experiment: "Section 3 / Table 1; Appendix B / Table 9"
     caveats:
-      - "Rejected student trajectories are replaced with teacher demonstrations, making the effective training distribution an explicit mixture."
-      - "The advertised project URL was not reachable at the snapshot date."
+      - "The effective training distribution mixes retained student segments and teacher replacements."
+      - "Some reported Web Q&A results include teacher intervention at test time; separate these from student-only inference."
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "omnidraft"
     record_kind: "paper"
@@ -526,6 +563,9 @@ works:
       experiment: "Experiments section"
     caveats:
       - "Not canonical full-response student-policy OPD."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "kdflow"
     record_kind: "paper"
@@ -539,7 +579,7 @@ works:
       - "Yufeng Chen"
       - "Jinan Xu"
     first_public_date: "2026-03-02"
-    checked_version: "arXiv v3"
+    checked_version: "arXiv v4"
     publication: "arXiv preprint"
     urls:
       paper: "https://arxiv.org/abs/2603.01875"
@@ -551,14 +591,20 @@ works:
     feedback_coverage: null
     teacher_access: "Depends on selected method."
     probability_semantics: "Depends on selected method."
-    evaluated_pairs: []
+    evaluated_pairs:
+      - teacher: "Qwen3-14B"
+        student: "Llama3.2-3B"
+        mismatch: "different tokenizers; off-policy experiment"
     code_status: "available"
     evidence_locations:
-      rollout: "Framework overview"
-      mismatch_interface: "Framework overview"
-      experiment: "No isolated cross-tokenizer OPD experiment"
+      rollout: "Section 4.4 / Appendix A.2 (separate on-policy configurations)"
+      mismatch_interface: "Sections 3.4 and 4.6"
+      experiment: "Section 4.6 / Table 5; Appendix A.1 (off-policy)"
     caveats:
-      - "Published experiments do not independently validate a new cross-tokenizer OPD interface."
+      - "The v4 cross-tokenizer experiment is off-policy (Appendix A.1); on-policy framework support does not make this experiment cross-tokenizer OPD."
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "easyopd"
     record_kind: "paper"
@@ -599,6 +645,9 @@ works:
       experiment: "Experiments section"
     caveats:
       - "Resource/framework paper, not a new alignment objective."
+    last_verified: "2026-08-15"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
 
   - id: "gold"
     record_kind: "research_article_and_implementation"
@@ -617,7 +666,7 @@ works:
       - "Leandro von Werra"
       - "Thomas Wolf"
     first_public_date: "2025-10-29"
-    checked_version: "web resource checked 2026-08-15"
+    checked_version: "web resource checked 2026-10-14"
     publication: "Hugging Face research article and experimental TRL trainer; not a paper"
     urls:
       paper: null
@@ -629,7 +678,7 @@ works:
     mismatch_evidence: "The resource is explicitly designed for teacher and student models with different tokenizers."
     interface: "Incremental decoded-span alignment with exact/shared-token supervision where possible and ULD fallback."
     feedback_coverage: "Aligned spans plus fallback handling for mismatches."
-    teacher_access: "Teacher logits/probabilities."
+    teacher_access: "Teacher logits/probabilities; separate teacher tokenizer."
     probability_semantics: "Hybrid implementation objective; consult the trainer documentation for current behavior."
     evaluated_pairs: []
     code_status: "available_experimental"
@@ -639,4 +688,360 @@ works:
       experiment: "Research article"
     caveats:
       - "Not counted as a paper in the core literature table."
-      - "TRL labels GOLDTrainer experimental, so behavior may change."
+      - "GOLDTrainer is in trl.experimental.gold; APIs may change. Full span coverage does not imply identity-preserving probability transport."
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
+
+  - id: "simpleopd"
+    record_kind: "paper"
+    classification: "core_output_space"
+    title: "SimpleOPD: Simple Tokenizer-Agnostic On-Policy Distillation for Long-Context Reasoning"
+    authors:
+      - "Haonan He"
+      - "Haodi Lei"
+      - "Yun Luo"
+      - "Haoran Zhang"
+      - "Shunkai Zhang"
+      - "Yizhuo Li"
+      - "Shengji Tang"
+      - "Zhilin Wang"
+      - "Runzhe Zhan"
+      - "Lei Bai"
+      - "Ganqu Cui"
+      - "Fangchen Yu"
+      - "Yafu Li"
+      - "Peng Ye"
+      - "Ning Ding"
+      - "Yu Cheng"
+    first_public_date: "2026-08-14"
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
+    checked_version: "arXiv v1"
+    publication: "arXiv preprint"
+    urls:
+      paper: "https://arxiv.org/abs/2608.14277"
+      full_text: "https://arxiv.org/html/2608.14277v1"
+      code: "https://github.com/hhnqqq/SimpleOPD"
+      project: "https://hhnqqq.github.io/SimpleOPD-project-page/"
+    student_policy_states: "yes"
+    mismatch_evidence: "The full text explicitly describes tokenizer mismatch and evaluates the listed heterogeneous pairs."
+    interface: "Retokenize student text with the teacher template; retain tokens with identical start/end offsets."
+    feedback_coverage: "Realized tokens at exact 1:1 text spans; unmatched positions receive zero distillation advantage."
+    teacher_access: "Teacher sampled-token log-probabilities."
+    probability_semantics: "Partial reverse-KL surrogate; no dense target."
+    evaluated_pairs:
+      - teacher: "SU-01 (Qwen3-30B-A3B-based)"
+        student: "GLM-4.7-Flash / Gemma-4-26B-A4B"
+        mismatch: "different vocabularies and segmentation"
+      - teacher: "SU-01"
+        student: "Qwen3.5-4B / Qwen3.5-35B-A3B"
+        mismatch: "cross-generation tokenizer mismatch"
+    code_status: "available"
+    evidence_locations:
+      rollout: "Section 2 / Eq. 1"
+      mismatch_interface: "Sections 2.1-2.2 / Appendix A"
+      experiment: "Sections 3.2 and 4.2-4.3 / Table 2 / Figure 7"
+    caveats:
+      - "Termination-token advantage masking and student-reference KL are part of the stabilized recipe."
+      - "Gemma improves on ProofBench but declines on AnswerBench."
+
+  - id: "compassopd"
+    record_kind: "paper"
+    classification: "core_output_space"
+    title: "CompassOPD: Cross-Family On-Policy Distillation via Within-Family Likelihood Shifts"
+    authors:
+      - "Naibin Gu"
+      - "Qingyi Si"
+      - "Chenxu Yang"
+      - "Chuanyu Qin"
+      - "Junhao Zhou"
+      - "Peng Fu"
+      - "Zheng Lin"
+      - "Weiping Wang"
+    first_public_date: "2026-09-09"
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
+    checked_version: "arXiv v1"
+    publication: "arXiv preprint"
+    urls:
+      paper: "https://arxiv.org/abs/2609.10154"
+      full_text: "https://arxiv.org/html/2609.10154v1"
+      code: null
+      project: null
+    student_policy_states: "yes"
+    mismatch_evidence: "The full text explicitly describes tokenizer mismatch and evaluates the listed heterogeneous pairs."
+    interface: "Shared-boundary span alignment; transfer strong-teacher minus teacher-family-reference scores, with a frozen student anchor."
+    feedback_coverage: "Realized aligned units; inconsistent boundaries are masked."
+    teacher_access: "Teacher and teacher-family-reference log-probabilities."
+    probability_semantics: "Span-averaged likelihood shifts; not teacher vocabulary transport."
+    evaluated_pairs:
+      - teacher: "Qwen3.5-35B-A3B (reference: Qwen3.5-0.8B)"
+        student: "Granite4.1-3B / Qwen3-4B / OLMo-3-7B-Instruct-SFT"
+        mismatch: "cross-family/cross-generation aligned-text setting"
+    code_status: "not_found"
+    evidence_locations:
+      rollout: "Sections 2 and 4"
+      mismatch_interface: "Appendix A.4"
+      experiment: "Section 5.2 / Tables 1-2"
+    caveats:
+      - "Requires a teacher-family reference and SFT initialization; reduced expert activation provides an MoE self-reference option."
+
+  - id: "dvlm"
+    record_kind: "paper"
+    classification: "core_output_space"
+    title: "Dual-Vocabulary Language Model for Cross-Tokenizer Distillation"
+    authors:
+      - "Kedi Chen"
+      - "Chen Lin"
+      - "Yutao Sun"
+      - "Wei Zhang"
+    first_public_date: "2026-09-27"
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
+    checked_version: "arXiv v1"
+    publication: "arXiv preprint"
+    urls:
+      paper: "https://arxiv.org/abs/2609.33816"
+      full_text: "https://arxiv.org/html/2609.33816v1"
+      code: null
+      project: null
+    student_policy_states: "yes"
+    mismatch_evidence: "The full text explicitly describes tokenizer mismatch and evaluates the listed heterogeneous pairs."
+    interface: "Train a student-vocabulary teacher head using parallel-tokenized input and Hybrid-Prefix Attention."
+    feedback_coverage: "Dense student-vocabulary logits at student positions."
+    teacher_access: "Teacher backbone, hidden states, and trainable replacement LM head."
+    probability_semantics: "Learned adapted-teacher distribution; not exact original-teacher string marginalization."
+    evaluated_pairs:
+      - teacher: "Qwen3-4B"
+        student: "Llama-3.2-1B-Instruct / OLMo-2-1B-Instruct"
+        mismatch: "different tokenizers"
+    code_status: "not_found"
+    evidence_locations:
+      rollout: "Section 3.2 / Eq. 7"
+      mismatch_interface: "Section 3.1 / Eqs. 2-6"
+      experiment: "Sections 4.1-4.2 / Table 1"
+    caveats:
+      - "Requires a separate head-training stage and modified teacher attention; Stage II uses forward KL."
+
+  - id: "escd"
+    record_kind: "paper"
+    classification: "core_output_space"
+    title: "Beyond Token Alignment: Event Completion for Cross-Tokenizer On-Policy Distillation"
+    authors:
+      - "Jiacheng Liu"
+      - "Jingwei Song"
+      - "Qituan Zhang"
+      - "Siheng Chen"
+      - "Linfeng Zhang"
+    first_public_date: "2026-09-28"
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
+    checked_version: "arXiv v1"
+    publication: "arXiv preprint"
+    urls:
+      paper: "https://arxiv.org/abs/2609.34738"
+      full_text: "https://arxiv.org/html/2609.34738v1"
+      code: null
+      project: null
+    student_policy_states: "yes"
+    mismatch_evidence: "The full text explicitly describes tokenizer mismatch and evaluates the listed heterogeneous pairs."
+    interface: "Aggregate prefix-related teacher events; add a completion-set loss at visited child states to byte-aligned root supervision."
+    feedback_coverage: "Total probability of compatible one-step completions."
+    teacher_access: "Teacher event probabilities (full vocabulary in experiments)."
+    probability_semantics: "Mass-weighted set probability; within-set allocation is unconstrained."
+    evaluated_pairs:
+      - teacher: "Qwen3-32B / GLM-Z1-9B"
+        student: "Qwen3.5-2B"
+        mismatch: "cross-generation/cross-family tokenizer mismatch"
+      - teacher: "Qwen3.5-397B-A17B"
+        student: "Qwen3-30B-A3B-Thinking"
+        mismatch: "cross-generation tokenizer mismatch"
+      - teacher: "Kimi-K2.7-Code"
+        student: "Qwen3.6-35B-A3B"
+        mismatch: "heterogeneous MoE tokenizer mismatch; SFT initialization"
+    code_status: "announced_not_available"
+    evidence_locations:
+      rollout: "Section 3.3 / Appendix B.6 / Algorithm 1"
+      mismatch_interface: "Sections 3.1-3.2 / Appendix B.4"
+      experiment: "Section 4 / Tables 1-2"
+    caveats:
+      - "Empty one-step completion sets get no child loss."
+      - "Prefix aggregation coarsens events; completions may extend beyond residual boundaries."
+
+  - id: "rethinking"
+    record_kind: "paper"
+    classification: "core_output_space"
+    title: "Rethinking Cross-Tokenizer On-Policy Distillation: From Alignment Coverage to Supervision Reliability"
+    authors:
+      - "Bingxi Hou"
+      - "Guochao Jiang"
+      - "Guofeng Quan"
+      - "Weiqing Li"
+      - "Wenfeng Feng"
+      - "Guohua Liu"
+      - "Yuewei Zhang"
+    first_public_date: "2026-10-06"
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
+    checked_version: "arXiv v1"
+    publication: "arXiv preprint"
+    urls:
+      paper: "https://arxiv.org/abs/2610.08448"
+      full_text: "https://arxiv.org/html/2610.08448v1"
+      code: "https://anonymous.4open.science/r/Cross-Tokenizer-OPD"
+      project: null
+    student_policy_states: "yes"
+    mismatch_evidence: "The full text explicitly describes tokenizer mismatch and evaluates the listed heterogeneous pairs."
+    interface: "Strict 1:1 span alignment; reverse KL on renormalized shared vocabulary or a student-selected top-k subset."
+    feedback_coverage: "Strict positions; top-16 tested."
+    teacher_access: "Teacher next-token scores on shared candidates."
+    probability_semantics: "Subset-renormalized distribution; not full-vocabulary transport."
+    evaluated_pairs:
+      - teacher: "Qwen2.5-7B-Instruct"
+        student: "Llama-3.2-3B-Instruct"
+        mismatch: "different tokenizers"
+      - teacher: "Granite-4.1-8B"
+        student: "Phi-4-mini-instruct / Qwen2.5-7B-Base"
+        mismatch: "different tokenizers"
+    code_status: "linked_access_unverified"
+    evidence_locations:
+      rollout: "Sections 2.2-2.3 / Eq. 5"
+      mismatch_interface: "Section 2.3 / Eqs. 2-4"
+      experiment: "Sections 3-5 / Tables 1-3 / Appendix C"
+    caveats:
+      - "Negative span-MSE findings concern the tested objective and pairs, not all mismatch supervision."
+      - "Paper-linked anonymous code returned HTTP 401 during this check; implementation contents were not audited."
+
+  - id: "cast"
+    record_kind: "paper"
+    classification: "core_output_space"
+    title: "CAST: Credit Alignment for Cross-Tokenizer On-Policy Distillation"
+    authors:
+      - "Jingru Yang"
+      - "Jinhang Wu"
+      - "Minjing Shi"
+      - "Shengfeng He"
+      - "Xuyan Li"
+      - "Man Tan"
+      - "Biye Li"
+    first_public_date: "2026-10-09"
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
+    checked_version: "arXiv v1"
+    publication: "arXiv preprint"
+    urls:
+      paper: "https://arxiv.org/abs/2610.13257"
+      full_text: "https://arxiv.org/html/2610.13257v1"
+      code: null
+      project: null
+    student_policy_states: "yes"
+    mismatch_evidence: "The full text explicitly describes tokenizer mismatch and evaluates the listed heterogeneous pairs."
+    interface: "Decoded-text alignment followed by uncertainty/smoothness-weighted chunk credit and selective initial-policy anchoring."
+    feedback_coverage: "Realized aligned tokens; initial-policy penalty at unaligned positions."
+    teacher_access: "Per-token teacher log-probabilities on retokenized student text."
+    probability_semantics: "Preserves total chunk advantage, not full-vocabulary probability mass."
+    evaluated_pairs:
+      - teacher: "Qwen3-8B"
+        student: "Mistral-7B / Llama-3.1-8B (SFT initialized)"
+        mismatch: "different tokenizers"
+    code_status: "not_found"
+    evidence_locations:
+      rollout: "Section 3.1"
+      mismatch_interface: "Sections 3.2-3.3 / Appendix A.1"
+      experiment: "Section 4.2 / Table 1"
+    caveats:
+      - "Credit chunks differ from tokenizer alignment chunks."
+      - "Teacher-score smoothness is a structural prior, not a correctness estimate."
+
+  - id: "mintagent"
+    record_kind: "paper"
+    classification: "core_application"
+    title: "Mint-Agent: Introducing Finance-Native Agentic Foundation Models"
+    authors:
+      - "Mint-Agent Team"
+      - "Kun Wang"
+      - "Gavin Zhang"
+      - "Yaze Geng"
+      - "Lei Tang"
+      - "Yaoyang Yi"
+      - "Zonghan Wu"
+      - "Yifan Hu"
+      - "Qingsong Wen"
+      - "Yilei Shao"
+    first_public_date: "2026-08-17"
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
+    checked_version: "arXiv v2"
+    publication: "arXiv preprint"
+    urls:
+      paper: "https://arxiv.org/abs/2608.16386"
+      full_text: "https://arxiv.org/html/2608.16386v2"
+      code: null
+      project: "https://mint-fin.github.io/mint-agent/"
+    student_policy_states: "yes"
+    mismatch_evidence: "The full text explicitly describes tokenizer mismatch and evaluates the listed heterogeneous pairs."
+    interface: "At critical student turns, decoded-text chunks redistribute teacher path scores proportionally to student token log-probabilities."
+    feedback_coverage: "Resampled student actions at selected failure states."
+    teacher_access: "DeepSeek-V4-Pro scores on student continuations."
+    probability_semantics: "Realized-path credit; no dense vocabulary mapping."
+    evaluated_pairs:
+      - teacher: "DeepSeek-V4-Pro"
+        student: "Qwen3.5-9B / Qwen3.6-27B agentic specialists (Mint-Cu / Mint-Ag pipeline)"
+        mismatch: "explicitly different tokenizers"
+    code_status: "not_found"
+    evidence_locations:
+      rollout: "Section 5.2 (Critical-Step OPD)"
+      mismatch_interface: "Section 5.2 (Critical-Step OPD)"
+      experiment: "Section 6.1 / Table 2"
+    caveats:
+      - "Reports a combined SFT/OPD/RLVR/merging pipeline; final scores do not isolate the cross-tokenizer stage."
+      - "The subsequent multi-teacher integration uses same-tokenizer specialists."
+
+  - id: "actd"
+    record_kind: "paper"
+    classification: "adjacent_off_policy"
+    title: "ACTD: Anchor-Based Cross-Tokenizer Distillation with Residual Regularization"
+    authors:
+      - "Huiyi Zhang"
+      - "Zijian Li"
+      - "Xiaocheng Feng"
+      - "Weitao Ma"
+      - "Xiaoliang Yang"
+      - "Yichong Huang"
+      - "Bing Qin"
+    first_public_date: "2026-08-30"
+    last_verified: "2026-10-14"
+    metadata_last_verified: "2026-10-14"
+    code_last_checked: "2026-10-14"
+    checked_version: "arXiv v1"
+    publication: "arXiv preprint"
+    urls:
+      paper: "https://arxiv.org/abs/2608.29662"
+      full_text: "https://arxiv.org/html/2608.29662v1"
+      code: "https://github.com/hyhy892/ACTD"
+      project: null
+    student_policy_states: "no: dataset-provided reference solutions"
+    mismatch_evidence: "The full text explicitly describes tokenizer mismatch and evaluates the listed heterogeneous pairs."
+    interface: "Vocabulary/sequence alignment with high-probability anchor loss and residual regularization."
+    feedback_coverage: "Anchors and residuals on fixed reference solutions."
+    teacher_access: "Cached teacher top-128 logits."
+    probability_semantics: "Mapped anchor distribution; off-policy."
+    evaluated_pairs:
+      - teacher: "DeepSeek-R1-Distill-Llama-8B / GLM-4-9B-Chat"
+        student: "Qwen3-1.7B-Base"
+        mismatch: "different tokenizers"
+    code_status: "available"
+    evidence_locations:
+      rollout: "Section 4.1 / Appendix C (reference solutions)"
+      mismatch_interface: "Section 3 / Appendix A"
+      experiment: "Section 4 / Table 1"
+    caveats:
+      - "Section 4.1 explicitly uses off-policy reference solutions, so this is not core OPD evidence."

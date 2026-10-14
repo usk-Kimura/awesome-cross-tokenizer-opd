@@ -35,16 +35,43 @@ link to the source.
 
 ## Pull requests
 
-- Update the English `README.md`; update `README_ja.md` when the taxonomy or a
-  central conclusion changes.
+- Update the English `README.md`; keep `README_ja.md`, `README_zh.md`, and
+  `README_ko.md` aligned when the taxonomy or a central conclusion changes.
 - Add or revise the corresponding record in `data/papers.yml`.
 - Add a BibTeX entry to `references.bib` for a new paper.
 - Preserve the distinction among core methods, evidence-caveat rows, boundary
   applications, frameworks/resources, and off-policy enabling work.
 - Set `last_verified` only to the date on which links and claims were checked.
+- Preserve each work's full-text `last_verified` when only rechecking its version
+  or code link; use `metadata_last_verified` and `code_last_checked` for those
+  checks. The top-level date identifies the latest survey refresh.
+- Applied pipelines meeting the core criteria belong in `core_application`;
+  separate their complete-pipeline results from isolated bridge evaluations.
+  Fixed-reference KD additions belong in `adjacent_off_policy`.
 
 Use the issue forms if you would rather submit evidence without editing the
 repository.
+
+## Research catalogue
+
+The GitHub Pages catalogue is built from `data/papers.yml` and `references.bib`.
+Keep the short summaries in `web/summaries.json` aligned in all four languages;
+the detailed source metadata remains in English. Code availability tables in
+the READMEs are generated, so update the data rather than editing those tables.
+
+```bash
+python -m pip install -r requirements-site.txt
+python scripts/sync_code_tables.py
+python -m unittest discover -s tests -v
+python scripts/build_site.py
+python -m http.server 8765 --bind 127.0.0.1 --directory dist
+```
+
+Open `http://127.0.0.1:8765/` for a local preview. Optional browser checks use
+Playwright: `python scripts/check_browser.py`. The checks cover multilingual
+search, filters, comparison, citation downloads, shared URLs, mobile layouts,
+and reading without JavaScript. The Pages workflow validates and publishes the
+catalogue when changes reach `main`; pull requests only build and validate.
 
 ## Evidence and tone
 
