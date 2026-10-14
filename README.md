@@ -270,29 +270,29 @@ Status is based on official-source lookups, not independent reproduction. “Not
 
 | Work | Scope | Official implementation | Last checked |
 |---|---|---|---|
-| [DSKD / DSKDv2](https://arxiv.org/abs/2504.11426) | Output-space interfaces | [Available](https://github.com/songmzhang/DSKDv2) | 2026-10-14 |
-| [SimCT](https://arxiv.org/abs/2605.07711) | Output-space interfaces | [Available](https://github.com/sunjie279/SimCT-) | 2026-10-14 |
-| [ESR](https://arxiv.org/abs/2605.27028) | Output-space interfaces | Not located | 2026-10-14 |
-| [GAD](https://arxiv.org/abs/2511.10643) | Vocabulary-bypassing | [Available](https://github.com/microsoft/LMOps/tree/main/gad) | 2026-10-14 |
-| [ROPD](https://arxiv.org/abs/2605.07396) | Vocabulary-bypassing | [Available](https://github.com/Peregrine123/ROPD_official) | 2026-10-14 |
-| [OmniOPD](https://arxiv.org/abs/2606.01476) | Vocabulary-bypassing | Not located | 2026-10-14 |
-| [OPRD / OPRD-Bridge](https://arxiv.org/abs/2606.06021) | Implementation concern | [Available](https://github.com/ShenzhiYang2000/OPRD) | 2026-10-14 |
-| [BTB](https://arxiv.org/abs/2606.09456) | Output-space interfaces | [Available](https://github.com/ivanniu/On-Policy-Distill) | 2026-10-14 |
-| [REOPOLD](https://openreview.net/forum?id=NPhEUvT1jH) | Interface under-specified | Not located | 2026-10-14 |
-| [BPM](https://arxiv.org/abs/2607.22334) | Output-space interfaces | [Available](https://github.com/K1XE/BPM) | 2026-10-14 |
-| [OVD](https://arxiv.org/abs/2601.21968) | Boundary applications | [Available](https://github.com/menik1126/OVD-code) | 2026-10-14 |
-| [OmniDraft](https://arxiv.org/abs/2507.02659) | Boundary applications | Not located | 2026-10-14 |
-| [KDFlow](https://arxiv.org/abs/2603.01875) | Frameworks | [Available](https://github.com/songmzhang/KDFlow) | 2026-10-14 |
-| [EasyOPD](https://arxiv.org/abs/2607.11012) | Frameworks | [Available](https://github.com/lds-ustc/EasyOPD) | 2026-10-14 |
-| [GOLD](https://huggingface.co/spaces/HuggingFaceH4/on-policy-distillation) | Implementation resources | [Available · experimental](https://github.com/huggingface/trl) | 2026-10-14 |
-| [SimpleOPD](https://arxiv.org/abs/2608.14277) | Output-space interfaces | [Available](https://github.com/hhnqqq/SimpleOPD) | 2026-10-14 |
-| [CompassOPD](https://arxiv.org/abs/2609.10154) | Output-space interfaces | Not located | 2026-10-14 |
-| [DVLM](https://arxiv.org/abs/2609.33816) | Output-space interfaces | Not located | 2026-10-14 |
-| [ESCD](https://arxiv.org/abs/2609.34738) | Output-space interfaces | Announced · not located | 2026-10-14 |
-| [Rethinking Cross-Tokenizer OPD](https://arxiv.org/abs/2610.08448) | Output-space interfaces | [Linked · access unverified](https://anonymous.4open.science/r/Cross-Tokenizer-OPD) | 2026-10-14 |
-| [CAST](https://arxiv.org/abs/2610.13257) | Output-space interfaces | Not located | 2026-10-14 |
-| [Mint-Agent](https://arxiv.org/abs/2608.16386) | Applied pipelines | Not located | 2026-10-14 |
-| [ACTD](https://arxiv.org/abs/2608.29662) | Adjacent / off-policy KD | [Available](https://github.com/hyhy892/ACTD) | 2026-10-14 |
+| [DSKD / DSKDv2](https://arxiv.org/abs/2504.11426) | Output-space interfaces | [Official code available](https://github.com/songmzhang/DSKDv2) | 2026-10-14 |
+| [SimCT](https://arxiv.org/abs/2605.07711) | Output-space interfaces | [Official code available](https://github.com/sunjie279/SimCT-) | 2026-10-14 |
+| [ESR](https://arxiv.org/abs/2605.27028) | Output-space interfaces | Official code not located | 2026-10-14 |
+| [GAD](https://arxiv.org/abs/2511.10643) | Vocabulary-bypassing | [Official code available](https://github.com/microsoft/LMOps/tree/main/gad) | 2026-10-14 |
+| [ROPD](https://arxiv.org/abs/2605.07396) | Vocabulary-bypassing | [Official code available](https://github.com/Peregrine123/ROPD_official) | 2026-10-14 |
+| [OmniOPD](https://arxiv.org/abs/2606.01476) | Vocabulary-bypassing | Official code not located | 2026-10-14 |
+| [OPRD / OPRD-Bridge](https://arxiv.org/abs/2606.06021) | Implementation concern | [Official code available](https://github.com/ShenzhiYang2000/OPRD) | 2026-10-14 |
+| [BTB](https://arxiv.org/abs/2606.09456) | Output-space interfaces | [Official code available](https://github.com/ivanniu/On-Policy-Distill) | 2026-10-14 |
+| [REOPOLD](https://openreview.net/forum?id=NPhEUvT1jH) | Interface under-specified | Official code not located | 2026-10-14 |
+| [BPM](https://arxiv.org/abs/2607.22334) | Output-space interfaces | [Official code available](https://github.com/K1XE/BPM) | 2026-10-14 |
+| [OVD](https://arxiv.org/abs/2601.21968) | Boundary applications | [Official code available](https://github.com/menik1126/OVD-code) | 2026-10-14 |
+| [OmniDraft](https://arxiv.org/abs/2507.02659) | Boundary applications | Official code not located | 2026-10-14 |
+| [KDFlow](https://arxiv.org/abs/2603.01875) | Frameworks | [Official code available](https://github.com/songmzhang/KDFlow) | 2026-10-14 |
+| [EasyOPD](https://arxiv.org/abs/2607.11012) | Frameworks | [Official code available](https://github.com/lds-ustc/EasyOPD) | 2026-10-14 |
+| [GOLD](https://huggingface.co/spaces/HuggingFaceH4/on-policy-distillation) | Implementation resources | [Official code available · experimental](https://github.com/huggingface/trl) | 2026-10-14 |
+| [SimpleOPD](https://arxiv.org/abs/2608.14277) | Output-space interfaces | [Official code available](https://github.com/hhnqqq/SimpleOPD) | 2026-10-14 |
+| [CompassOPD](https://arxiv.org/abs/2609.10154) | Output-space interfaces | Official code not located | 2026-10-14 |
+| [DVLM](https://arxiv.org/abs/2609.33816) | Output-space interfaces | Official code not located | 2026-10-14 |
+| [ESCD](https://arxiv.org/abs/2609.34738) | Output-space interfaces | Code announced · not verified | 2026-10-14 |
+| [Rethinking Cross-Tokenizer OPD](https://arxiv.org/abs/2610.08448) | Output-space interfaces | [Code linked · access unverified](https://anonymous.4open.science/r/Cross-Tokenizer-OPD) | 2026-10-14 |
+| [CAST](https://arxiv.org/abs/2610.13257) | Output-space interfaces | Official code not located | 2026-10-14 |
+| [Mint-Agent](https://arxiv.org/abs/2608.16386) | Applied pipelines | Official code not located | 2026-10-14 |
+| [ACTD](https://arxiv.org/abs/2608.29662) | Adjacent / off-policy KD | [Official code available](https://github.com/hyhy892/ACTD) | 2026-10-14 |
 
 <!-- CODE-STATUS:END -->
 

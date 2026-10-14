@@ -159,33 +159,33 @@ Off-policy の cross-tokenizer KD、文字列確率の理論的基礎、既存�
 
 ## 公式コードの公開状況
 
-公式資料から確認した状況です。「未発見」はコードが存在しないという意味ではありません。公開予定、取得未確認のリンク、公開実装ありを区別しています。コード公開は実験再現を保証せず、OPRD の公開実装には下記の懸念があります。
+公式資料で確認したコードの状況です。「公式コードを確認できず」は、コードが存在しないという意味ではありません。公開予定と、リンクへのアクセスを確認できない状態も区別します。コード公開は実験の再現を保証しません。OPRD の実装上の懸念は本文を参照してください。
 
 | 研究 | 分類 | 公式実装 | 確認日 |
 |---|---|---|---|
-| [DSKD / DSKDv2](https://arxiv.org/abs/2504.11426) | 出力空間のインターフェイス | [公開済み](https://github.com/songmzhang/DSKDv2) | 2026-10-14 |
-| [SimCT](https://arxiv.org/abs/2605.07711) | 出力空間のインターフェイス | [公開済み](https://github.com/sunjie279/SimCT-) | 2026-10-14 |
-| [ESR](https://arxiv.org/abs/2605.27028) | 出力空間のインターフェイス | 未発見 | 2026-10-14 |
-| [GAD](https://arxiv.org/abs/2511.10643) | 語彙写像を回避 | [公開済み](https://github.com/microsoft/LMOps/tree/main/gad) | 2026-10-14 |
-| [ROPD](https://arxiv.org/abs/2605.07396) | 語彙写像を回避 | [公開済み](https://github.com/Peregrine123/ROPD_official) | 2026-10-14 |
-| [OmniOPD](https://arxiv.org/abs/2606.01476) | 語彙写像を回避 | 未発見 | 2026-10-14 |
-| [OPRD / OPRD-Bridge](https://arxiv.org/abs/2606.06021) | 公開実装に懸念 | [公開済み](https://github.com/ShenzhiYang2000/OPRD) | 2026-10-14 |
-| [BTB](https://arxiv.org/abs/2606.09456) | 出力空間のインターフェイス | [公開済み](https://github.com/ivanniu/On-Policy-Distill) | 2026-10-14 |
-| [REOPOLD](https://openreview.net/forum?id=NPhEUvT1jH) | 対応方法の説明が不十分 | 未発見 | 2026-10-14 |
-| [BPM](https://arxiv.org/abs/2607.22334) | 出力空間のインターフェイス | [公開済み](https://github.com/K1XE/BPM) | 2026-10-14 |
-| [OVD](https://arxiv.org/abs/2601.21968) | 境界的な応用 | [公開済み](https://github.com/menik1126/OVD-code) | 2026-10-14 |
-| [OmniDraft](https://arxiv.org/abs/2507.02659) | 境界的な応用 | 未発見 | 2026-10-14 |
-| [KDFlow](https://arxiv.org/abs/2603.01875) | フレームワーク | [公開済み](https://github.com/songmzhang/KDFlow) | 2026-10-14 |
-| [EasyOPD](https://arxiv.org/abs/2607.11012) | フレームワーク | [公開済み](https://github.com/lds-ustc/EasyOPD) | 2026-10-14 |
-| [GOLD](https://huggingface.co/spaces/HuggingFaceH4/on-policy-distillation) | 実装・研究資料 | [公開済み・実験的](https://github.com/huggingface/trl) | 2026-10-14 |
-| [SimpleOPD](https://arxiv.org/abs/2608.14277) | 出力空間のインターフェイス | [公開済み](https://github.com/hhnqqq/SimpleOPD) | 2026-10-14 |
-| [CompassOPD](https://arxiv.org/abs/2609.10154) | 出力空間のインターフェイス | 未発見 | 2026-10-14 |
-| [DVLM](https://arxiv.org/abs/2609.33816) | 出力空間のインターフェイス | 未発見 | 2026-10-14 |
-| [ESCD](https://arxiv.org/abs/2609.34738) | 出力空間のインターフェイス | 公開予定・未発見 | 2026-10-14 |
-| [Rethinking Cross-Tokenizer OPD](https://arxiv.org/abs/2610.08448) | 出力空間のインターフェイス | [リンクあり・取得未確認](https://anonymous.4open.science/r/Cross-Tokenizer-OPD) | 2026-10-14 |
-| [CAST](https://arxiv.org/abs/2610.13257) | 出力空間のインターフェイス | 未発見 | 2026-10-14 |
-| [Mint-Agent](https://arxiv.org/abs/2608.16386) | 実際の学習 pipeline | 未発見 | 2026-10-14 |
-| [ACTD](https://arxiv.org/abs/2608.29662) | 関連・off-policy KD | [公開済み](https://github.com/hyhy892/ACTD) | 2026-10-14 |
+| [DSKD / DSKDv2](https://arxiv.org/abs/2504.11426) | 出力分布・トークンの対応 | [公式コードあり](https://github.com/songmzhang/DSKDv2) | 2026-10-14 |
+| [SimCT](https://arxiv.org/abs/2605.07711) | 出力分布・トークンの対応 | [公式コードあり](https://github.com/sunjie279/SimCT-) | 2026-10-14 |
+| [ESR](https://arxiv.org/abs/2605.27028) | 出力分布・トークンの対応 | 公式コードを確認できず | 2026-10-14 |
+| [GAD](https://arxiv.org/abs/2511.10643) | 語彙を直接対応させない方法 | [公式コードあり](https://github.com/microsoft/LMOps/tree/main/gad) | 2026-10-14 |
+| [ROPD](https://arxiv.org/abs/2605.07396) | 語彙を直接対応させない方法 | [公式コードあり](https://github.com/Peregrine123/ROPD_official) | 2026-10-14 |
+| [OmniOPD](https://arxiv.org/abs/2606.01476) | 語彙を直接対応させない方法 | 公式コードを確認できず | 2026-10-14 |
+| [OPRD / OPRD-Bridge](https://arxiv.org/abs/2606.06021) | 公開実装に懸念 | [公式コードあり](https://github.com/ShenzhiYang2000/OPRD) | 2026-10-14 |
+| [BTB](https://arxiv.org/abs/2606.09456) | 出力分布・トークンの対応 | [公式コードあり](https://github.com/ivanniu/On-Policy-Distill) | 2026-10-14 |
+| [REOPOLD](https://openreview.net/forum?id=NPhEUvT1jH) | 対応方法の説明が不十分 | 公式コードを確認できず | 2026-10-14 |
+| [BPM](https://arxiv.org/abs/2607.22334) | 出力分布・トークンの対応 | [公式コードあり](https://github.com/K1XE/BPM) | 2026-10-14 |
+| [OVD](https://arxiv.org/abs/2601.21968) | 境界的な応用 | [公式コードあり](https://github.com/menik1126/OVD-code) | 2026-10-14 |
+| [OmniDraft](https://arxiv.org/abs/2507.02659) | 境界的な応用 | 公式コードを確認できず | 2026-10-14 |
+| [KDFlow](https://arxiv.org/abs/2603.01875) | 学習フレームワーク | [公式コードあり](https://github.com/songmzhang/KDFlow) | 2026-10-14 |
+| [EasyOPD](https://arxiv.org/abs/2607.11012) | 学習フレームワーク | [公式コードあり](https://github.com/lds-ustc/EasyOPD) | 2026-10-14 |
+| [GOLD](https://huggingface.co/spaces/HuggingFaceH4/on-policy-distillation) | 実装・解説資料 | [公式コードあり（実験的）](https://github.com/huggingface/trl) | 2026-10-14 |
+| [SimpleOPD](https://arxiv.org/abs/2608.14277) | 出力分布・トークンの対応 | [公式コードあり](https://github.com/hhnqqq/SimpleOPD) | 2026-10-14 |
+| [CompassOPD](https://arxiv.org/abs/2609.10154) | 出力分布・トークンの対応 | 公式コードを確認できず | 2026-10-14 |
+| [DVLM](https://arxiv.org/abs/2609.33816) | 出力分布・トークンの対応 | 公式コードを確認できず | 2026-10-14 |
+| [ESCD](https://arxiv.org/abs/2609.34738) | 出力分布・トークンの対応 | コード公開予定（未確認） | 2026-10-14 |
+| [Rethinking Cross-Tokenizer OPD](https://arxiv.org/abs/2610.08448) | 出力分布・トークンの対応 | [コードリンクあり（アクセス未確認）](https://anonymous.4open.science/r/Cross-Tokenizer-OPD) | 2026-10-14 |
+| [CAST](https://arxiv.org/abs/2610.13257) | 出力分布・トークンの対応 | 公式コードを確認できず | 2026-10-14 |
+| [Mint-Agent](https://arxiv.org/abs/2608.16386) | 実際の学習工程での利用 | 公式コードを確認できず | 2026-10-14 |
+| [ACTD](https://arxiv.org/abs/2608.29662) | 関連・off-policy KD | [公式コードあり](https://github.com/hyhy892/ACTD) | 2026-10-14 |
 
 <!-- CODE-STATUS:END -->
 

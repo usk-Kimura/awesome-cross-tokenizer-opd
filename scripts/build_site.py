@@ -2,6 +2,7 @@
 from pathlib import Path
 import argparse
 import html
+import hashlib
 import json
 import re
 import shutil
@@ -50,10 +51,13 @@ def build(output):
     data = yaml.safe_load((ROOT / "data/papers.yml").read_text())
     locales = json.loads((ROOT / "web/locales.json").read_text())
     summaries = json.loads((ROOT / "web/summaries.json").read_text())
+    japanese = json.loads((ROOT / "web/japanese-methods.json").read_text())
     citations = bib_entries((ROOT / "references.bib").read_text())
     ids = [work["id"] for work in data["works"]]
     if len(ids) != len(set(ids)):
         raise ValueError("Duplicate paper ID")
+    if set(japanese) != set(ids):
+        raise ValueError("Incomplete Japanese method explanations")
     for lang in LANG_FILES:
         if set(summaries[lang]) != set(ids):
             raise ValueError(f"Incomplete {lang} summaries")
@@ -67,12 +71,15 @@ def build(output):
         if work["record_kind"] == "paper" and not work["bibtex"]:
             raise ValueError(f"Missing citation: {work['id']}")
         work["summary"] = {lang: summaries[lang][work["id"]] for lang in LANG_FILES}
+        work["japanese"] = japanese[work["id"]]
     output.mkdir(parents=True, exist_ok=True)
     for name in ["app.js", "style.css", "locales.json"]:
         shutil.copyfile(ROOT / "web" / name, output / name)
+    shutil.copytree(ROOT / "web/fonts", output / "fonts", dirs_exist_ok=True)
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     interface = json.dumps(locales, ensure_ascii=False).replace("</", "<\\/")
     (output / "site-data.js").write_text(f"window.OPD_DATA = {payload};\nwindow.OPD_LOCALES = {interface};\n")
+    revisions = {name: hashlib.sha256((output / name).read_bytes()).hexdigest()[:12] for name in ["style.css", "app.js", "site-data.js"]}
     template = (ROOT / "web/index.html").read_text()
     for lang in LANG_FILES:
         destination = output if lang == "en" else output / lang
@@ -84,9 +91,11 @@ def build(output):
             code = locales[lang][work["code_status"]]
             code_url = work["urls"].get("code")
             code_link = f'<a href="{html.escape(code_url)}">{html.escape(code)}</a>' if code_url else html.escape(code)
-            initial.append(f'<article class="paper"><h3><a href="{html.escape(url)}">{html.escape(work["title"])}</a></h3><p>{html.escape(work["summary"][lang])}</p><p>{code_link}</p></article>')
+            initial.append(f'<article class="paper"><h3 lang="en">{html.escape(work["name"])}</h3><p class="original-title" lang="en"><a href="{html.escape(url)}">{html.escape(work["title"])}</a></p><p class="summary">{html.escape(work["summary"][lang])}</p><div class="implementation"><span class="code-badge">{code_link}</span><p class="checked-date">{html.escape(locales[lang]["codeChecked"])}: {work["code_last_checked"]}</p></div></article>')
         page = template.replace("__LANG__", "zh-Hans" if lang == "zh" else lang)
         page = page.replace("__ASSET_BASE__", prefix).replace("__CANONICAL__", BASE_URL + (lang + "/" if lang != "en" else ""))
+        for asset, revision in revisions.items():
+            page = page.replace(f'{prefix}{asset}"', f'{prefix}{asset}?v={revision}"')
         page = page.replace("__INITIAL_LIST__", "\n".join(initial))
         page = page.replace(prefix + "README.md", prefix + LANG_FILES[lang])
         for key, value in locales[lang].items():

@@ -7,8 +7,6 @@
   const $ = id => document.getElementById(id);
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const publicCode = work => ['available', 'available_experimental'].includes(work.code_status);
-  const script = document.querySelector('script[src$="app.js"]');
-  const assetBase = new URL('./', script.src);
   const byId = new Map(data.works.map(work => [work.id, work]));
   const params = new URLSearchParams(location.search);
   const pageLang = document.documentElement.lang === 'zh-Hans' ? 'zh' : document.documentElement.lang;
@@ -22,19 +20,26 @@
   const codeClass = work => publicCode(work) ? 'public' : ['announced_not_available', 'linked_access_unverified'].includes(work.code_status) ? 'pending' : '';
   const badge = work => `<span class="code-badge ${codeClass(work)}" title="${escape(t('codeChecked') + ': ' + work.code_last_checked)}">${escape(t(work.code_status))}</span>`;
   const citationButton = work => work.bibtex ? `<button type="button" data-bib="${escape(work.id)}">${escape(t('copyBib'))}</button>` : '';
-  const dl = (key, value) => `<dt>${escape(t(key))}</dt><dd>${escape(value)}</dd>`;
+  const dl = (key, value, original = false) => `<dt>${escape(t(key))}</dt><dd${original ? ' lang="en"' : ''}>${escape(value)}</dd>`;
+
+  function implementation(work) {
+    const help = {available:'codeAvailableHelp', available_experimental:'codeExperimentalHelp', not_found:'codeMissingHelp', announced_not_available:'codeAnnouncedHelp', linked_access_unverified:'codeLinkedHelp'}[work.code_status];
+    return `<div class="implementation"><div class="implementation-row">${badge(work)}${link(work.urls.code, t(work.code_status === 'linked_access_unverified' ? 'codeLink' : 'codeOpen'))}</div>${work.classification === 'paper_claim_implementation_concern' ? `<p class="implementation-concern">${escape(t('codeConcern'))}</p>` : ''}<details class="code-info"><summary>${escape(t('codeHelp'))}</summary><div class="code-explanation"><p>${escape(t(help))}</p><p class="checked-date">${escape(t('codeChecked'))}: <time datetime="${escape(work.code_last_checked)}">${escape(work.code_last_checked)}</time></p></div></details></div>`;
+  }
 
   function sourceDetails(work) {
-    return `<p class="source-note">${escape(t('sourceText'))}</p><dl lang="en">${dl('interface', work.interface)}${dl('coverage', work.feedback_coverage || '—')}${dl('access', work.teacher_access)}${dl('semantics', work.probability_semantics)}${dl('version', work.checked_version + ' · ' + work.publication)}${dl('rollout', work.evidence_locations.rollout)}${dl('mismatch', work.evidence_locations.mismatch_interface)}${dl('experiment', work.evidence_locations.experiment)}${dl('checked', work.last_verified)}${dl('codeChecked', work.code_last_checked)}<dt>${escape(t('caveats'))}</dt><dd><ul>${work.caveats.map(item => `<li>${escape(item)}</li>`).join('')}</ul></dd></dl><div class="evidence-links">${link(work.urls.full_text || work.urls.paper || work.urls.article, t('paper'))}${link(work.urls.author_publication, 'Author publication')}${link(work.urls.latest_openreview, 'Latest OpenReview')}${(work.implementation_audit?.evidence || []).map((url, i) => link(url, `Code evidence ${i + 1}`)).join('')}</div>`;
+    const original = `${dl('interface', work.interface, true)}${dl('coverage', work.feedback_coverage || '—', true)}${dl('access', work.teacher_access, true)}${dl('semantics', work.probability_semantics, true)}<dt>${escape(t('caveats'))}</dt><dd lang="en"><ul>${work.caveats.map(item => `<li>${escape(item)}</li>`).join('')}</ul></dd>`;
+    const explanation = lang === 'ja' ? `${dl('interface', work.summary.ja)}${dl('coverage', work.japanese.coverage)}${dl('access', work.japanese.access)}${dl('semantics', work.japanese.semantics)}` : original;
+    return `<p class="source-note">${escape(t('sourceText'))}</p><dl>${explanation}${dl('version', work.checked_version + ' · ' + work.publication, true)}${dl('rollout', work.evidence_locations.rollout, true)}${dl('mismatch', work.evidence_locations.mismatch_interface, true)}${dl('experiment', work.evidence_locations.experiment, true)}${dl('checked', work.last_verified)}${dl('codeChecked', work.code_last_checked)}</dl>${lang === 'ja' ? `<details class="source-original"><summary>${escape(t('sourceOriginal'))}</summary><dl>${original}</dl></details>` : ''}<div class="evidence-links">${link(work.urls.full_text || work.urls.paper || work.urls.article, t('sourceLink'))}${link(work.urls.author_publication, t('authorPublication'))}${link(work.urls.latest_openreview, t('latestOpenreview'))}${(work.implementation_audit?.evidence || []).map((url, i) => link(url, `${t('codeEvidence')} ${i + 1}`)).join('')}</div>`;
   }
 
   function pairHTML(work) {
-    return `<div class="pairs"><small>${escape(t('pair'))}</small>${work.evaluated_pairs.length ? work.evaluated_pairs.map(pair => `<p>${escape(pair.teacher)} → ${escape(pair.student)}</p>`).join('') : `<p>—</p>`}</div>`;
+    return `<div class="pairs"><small>${escape(t('pair'))}</small>${work.evaluated_pairs.length ? work.evaluated_pairs.map(pair => `<p lang="en">${escape(pair.teacher)} → ${escape(pair.student)}</p>`).join('') : `<p>${escape(t('noPairs'))}</p>`}</div>`;
   }
 
   function paperHTML(work) {
     const paper = work.urls.paper || work.urls.article;
-    return `<article class="paper" id="paper-${escape(work.id)}" data-paper-id="${escape(work.id)}"><div class="paper-meta"><span class="scope-badge">${escape(t(work.classification))}</span><time class="paper-date" datetime="${escape(work.first_public_date)}">${escape(work.first_public_date)}</time>${badge(work)}</div><div class="paper-title-row"><h3><span class="short-name">${escape(work.name)}</span>${link(paper, work.title)}</h3><label class="compare-select"><input type="checkbox" data-compare="${escape(work.id)}" ${selected.has(work.id) ? 'checked' : ''}><span>${escape(t('compare'))}</span></label></div><p class="authors">${escape(work.authors.join(' · '))}</p><p class="summary">${escape(work.summary[lang])}</p>${pairHTML(work)}<div class="paper-actions">${link(paper, work.urls.paper ? t('paper') : t('article'))}${work.urls.code ? link(work.urls.code, t(work.code_status)) : `<span>${escape(t('code'))}: ${escape(t(work.code_status))}</span>`}${link(work.urls.project, t('project'))}${citationButton(work)}</div><details><summary>${escape(t('details'))}</summary><div class="detail-content">${sourceDetails(work)}</div></details></article>`;
+    return `<article class="paper" id="paper-${escape(work.id)}" data-paper-id="${escape(work.id)}"><div class="paper-meta"><span class="scope-badge">${escape(t(work.classification))}</span><span class="paper-date">${escape(t('published'))} <time datetime="${escape(work.first_public_date)}">${escape(work.first_public_date)}</time></span></div><div class="paper-title-row"><h3 lang="en">${escape(work.name)}</h3><label class="compare-select"><input type="checkbox" data-compare="${escape(work.id)}" ${selected.has(work.id) ? 'checked' : ''}><span>${escape(t('compare'))}</span></label></div><p class="original-title" lang="en">${link(paper, work.title)}</p><p class="authors" lang="en">${escape(work.authors.join(' · '))}</p><p class="summary">${escape(work.summary[lang])}</p>${pairHTML(work)}${implementation(work)}<div class="paper-actions">${link(paper, work.urls.paper ? t('paper') : t('article'))}${link(work.urls.project, t('project'))}${citationButton(work)}</div><details class="method-details"><summary>${escape(t('details'))}</summary><div class="detail-content">${sourceDetails(work)}</div></details></article>`;
   }
 
   function filtered() {
@@ -77,6 +82,8 @@
     const works = filtered();
     $('papers').innerHTML = works.length ? works.map(paperHTML).join('') : `<p class="empty">${escape(t('empty'))}</p>`;
     $('result-count').textContent = `${works.length} ${t('results')}`;
+    $('filter-toggle-note').textContent = ['scope','code','access'].some(key => state[key] !== 'all') ? t('filterActive') : '';
+    document.querySelectorAll('[data-search]').forEach(button => button.setAttribute('aria-pressed', String(state.q === button.dataset.search)));
     updateSelection();
   }
 
@@ -88,6 +95,8 @@
     $('language').value = lang;
     $('search').placeholder = t('searchHint');
     $('search').value = state.q;
+    $('share').setAttribute('aria-label', t('share'));
+    $('share').title = t('share');
     const guide = {en:'README.md', ja:'README_ja.md', zh:'README_zh.md', ko:'README_ko.md'}[lang];
     $('guide-link').href = `https://github.com/usk-Kimura/awesome-cross-tokenizer-opd/blob/main/${guide}`;
     setOptions('scope', [['all','all'], ['core','allCore'], ...Object.keys(data.classifications).map(key => [key,key])]);
@@ -95,7 +104,7 @@
     setOptions('access', [['all','all'], ...['logits','scores','hidden','text','varies'].map(key => [key,key])]);
     setOptions('sort', ['newest','oldest','alphabetical'].map(key => [key,key]));
     const stats = [[data.works.length,'records'], [data.works.filter(w => w.classification.startsWith('core_')).length,'core'], [data.works.filter(publicCode).length,'publicCode'], [data.last_verified,'refreshed']];
-    $('stats').innerHTML = stats.map(([value, key]) => `<div class="stat ${key === 'refreshed' ? 'date' : ''}"><strong>${escape(value)}</strong><span>${escape(t(key))}</span></div>`).join('');
+    $('stats').innerHTML = stats.map(([value, key]) => `<div class="stat ${key === 'refreshed' ? 'date' : ''}"${key === 'core' ? ` title="${escape(t('scopeHelp'))}"` : ''}><strong>${escape(value)}</strong><span>${escape(t(key))}</span></div>`).join('');
     renderPapers();
   }
 
@@ -122,11 +131,12 @@
   function comparison() {
     if (!selected.size) return notify(t('compareEmpty'));
     const works = [...selected].map(id => byId.get(id));
-    $('comparison-content').innerHTML = `<div class="compare-grid" style="--columns:${works.length}">${works.map(work => `<section class="compare-card"><h3>${escape(work.name)}</h3><p>${escape(work.summary[lang])}</p>${badge(work)}${pairHTML(work)}${sourceDetails(work)}<div class="paper-actions">${citationButton(work)}</div></section>`).join('')}</div>`;
+    $('comparison-content').innerHTML = `<div class="compare-grid" style="--columns:${works.length}">${works.map(work => `<section class="compare-card"><h3 lang="en">${escape(work.name)}</h3><p>${escape(work.summary[lang])}</p>${implementation(work)}${pairHTML(work)}${sourceDetails(work)}<div class="paper-actions">${citationButton(work)}</div></section>`).join('')}</div>`;
     $('comparison').showModal();
   }
 
   $('search').addEventListener('input', e => { state.q = e.target.value; renderPapers(); });
+  $('filter-toggle').addEventListener('click', () => $('filter-toggle').setAttribute('aria-expanded', String($('filter-toggle').getAttribute('aria-expanded') !== 'true')));
   for (const key of ['scope','code','access','sort']) $(key).addEventListener('change', e => { state[key] = e.target.value; renderPapers(); });
   $('language').addEventListener('change', e => { lang = e.target.value; renderInterface(); });
   $('reset').addEventListener('click', () => { Object.assign(state, {q:'',scope:'all',code:'all',access:'all',sort:'newest'}); renderInterface(); });
@@ -152,6 +162,8 @@
     updateSelection();
   });
   document.addEventListener('click', e => {
+    const topic = e.target.closest('[data-search]');
+    if (topic) { state.q = topic.dataset.search; $('search').value = state.q; renderPapers(); $('search').focus(); }
     const citation = e.target.closest('[data-bib]');
     if (citation) copy(byId.get(citation.dataset.bib).bibtex, 'copied', 'copyFallback');
     const close = e.target.closest('[data-close]');

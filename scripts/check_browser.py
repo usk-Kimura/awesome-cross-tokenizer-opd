@@ -18,6 +18,7 @@ def check(base_url):
         page = context.new_page()
         errors = []
         page.on("pageerror", lambda error: errors.append(str(error)))
+        locales = json.loads((ROOT / "web/locales.json").read_text())
         for lang, path in [("en", ""), ("ja", "ja/"), ("zh", "zh/"), ("ko", "ko/")]:
             response = page.goto(urljoin(base_url, path), wait_until="networkidle")
             assert response.status == 200
@@ -29,10 +30,38 @@ def check(base_url):
             page.click("#reset")
             page.fill("#search", "Rethinking")
             expect(page.locator(".paper")).to_have_count(1)
-            expect(page.locator(".code-badge")).to_have_count(1)
-            page.locator("details").click()
+            expect(page.locator(".code-badge")).to_have_text(locales[lang]["linked_access_unverified"])
+            page.locator(".code-info > summary").click()
+            expect(page.locator(".code-explanation")).to_contain_text("HTTP 401")
+            expect(page.locator(".code-explanation")).to_contain_text("2026-10-14")
+            page.locator(".method-details > summary").click()
             expect(page.locator(".detail-content")).to_be_visible()
             assert "2026-10-14" in page.locator(".detail-content").inner_text()
+        page.select_option("#language", "ja")
+        page.fill("#search", "OmniOPD")
+        expect(page.locator(".code-badge")).to_have_text("公式コードを確認できず")
+        page.locator(".code-info > summary").click()
+        expect(page.locator(".code-explanation")).to_contain_text("存在しないと断定するものではありません")
+        assert page.locator(".implementation-row > a").count() == 0
+        page.fill("#search", "OPRD")
+        expect(page.locator(".code-badge")).to_have_text("公式コードあり")
+        expect(page.locator(".implementation-concern")).to_be_visible()
+        page.click("#reset")
+        page.click('[data-search="Qwen"]')
+        expect(page.locator("#search")).to_have_value("Qwen")
+        assert 0 < page.locator(".paper").count() < total
+        assert "qwen" in page.locator(".pairs").first.inner_text().lower()
+        expect(page.locator('[data-search="Qwen"]')).to_have_attribute("aria-pressed", "true")
+        # Verify Japanese glyphs actually use the bundled font rather than a missing fallback.
+        page.evaluate("document.fonts.ready")
+        session = context.new_cdp_session(page)
+        session.send("DOM.enable")
+        session.send("CSS.enable")
+        document = session.send("DOM.getDocument")
+        node = session.send("DOM.querySelector", {"nodeId": document["root"]["nodeId"], "selector": ".summary"})
+        fonts = session.send("CSS.getPlatformFontsForNode", {"nodeId": node["nodeId"]})["fonts"]
+        assert any(font["familyName"].startswith("Noto Sans JP") and font["isCustomFont"] and font["glyphCount"] > 0 for font in fonts), fonts
+        assert page.locator(".summary").first.evaluate("el => parseFloat(getComputedStyle(el).fontSize)") >= 15
         page.click("#reset")
         page.select_option("#access", "text")
         expect(page.locator(".paper")).to_have_count(sum(w["access_group"] == "text" for w in data["works"]))
@@ -64,11 +93,35 @@ def check(base_url):
         expect(page.locator(".paper")).to_have_count(0)
         expect(page.locator(".empty")).to_be_visible()
         page.click("#reset")
+        for width in [390, 320]:
+            page.set_viewport_size({"width": width, "height": 844})
+            for lang in ["en", "ja", "zh", "ko"]:
+                page.select_option("#language", lang)
+                assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), (lang, width)
         page.set_viewport_size({"width": 390, "height": 844})
-        for lang in ["en", "ja", "zh", "ko"]:
-            page.select_option("#language", lang)
-            assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), lang
+        page.select_option("#language", "ja")
+        page.goto(urljoin(base_url, "ja/"), wait_until="networkidle")
+        expect(page.locator("#code")).to_be_hidden()
+        page.click("#filter-toggle")
+        expect(page.locator("#code")).to_be_visible()
+        page.select_option("#code", "linked_access_unverified")
+        expect(page.locator(".paper")).to_have_count(1)
+        expect(page.locator("#filter-toggle-note")).to_have_text(locales["ja"]["filterActive"])
+        page.click("#reset")
+        page.click("#filter-toggle")
+        expect(page.locator("#code")).to_be_hidden()
+        page.evaluate("window.scrollTo(0,0)")
         page.screenshot(path="/tmp/cross-tokenizer-opd-mobile.png", full_page=False)
+        page.locator(".paper").first.scroll_into_view_if_needed()
+        page.screenshot(path="/tmp/cross-tokenizer-opd-mobile-card.png", full_page=False)
+        page.fill("#search", "Rethinking")
+        page.locator(".paper").scroll_into_view_if_needed()
+        page.screenshot(path="/tmp/cross-tokenizer-opd-mobile-rethinking.png", full_page=False)
+        page.set_viewport_size({"width": 1440, "height": 1080})
+        expect(page.locator("#code")).to_be_visible()
+        page.click("#reset")
+        page.evaluate("window.scrollTo(0,0)")
+        page.screenshot(path="/tmp/cross-tokenizer-opd-desktop.png", full_page=False)
         assert not errors, errors
         # Without JavaScript, all records and their sources remain discoverable.
         static_context = browser.new_context(java_script_enabled=False)
@@ -78,7 +131,7 @@ def check(base_url):
         latest = max(data["works"], key=lambda work: work["first_public_date"])
         assert latest["summary"]["zh"] in static_page.locator(".paper").first.inner_text()
         browser.close()
-    print("PASS: four languages, search, access/code filters, evidence details, comparison, citations, shared URLs, empty state, mobile width, and JavaScript-free reading.")
+    print("PASS: four languages, explicit code states and explanations, Japanese font rendering, search, filters, evidence, comparison, citations, shared URLs, 320/390px layouts, and JavaScript-free reading.")
 
 
 if __name__ == "__main__":
